@@ -9,10 +9,21 @@ package activity;
  */
 public class Run {
 
-    private static String inputUrl;
-    private static String outputUrl;
+    private String inputUrl;
+    private String outputUrl;
 
-    public static void parseInputArgs(String[] args) throws Exception {
+    Run() {
+        //no-op
+    }
+
+    Run(String[] args) throws Exception {
+        parseInputArgs(args);
+
+        AverageTimeSpent ats = new AverageTimeSpent(inputUrl, outputUrl);
+        ats.getAverageTimeSpent();
+    }
+
+    public void parseInputArgs(String[] args) throws Exception {
         if (args.length == 2) {
             inputUrl = args[0];
             outputUrl = args[1];
@@ -30,10 +41,15 @@ public class Run {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        parseInputArgs(args);
+        new Run(args);
+    }
 
-        AverageTimeSpent ats = new AverageTimeSpent(inputUrl, outputUrl);
-        ats.getAverageTimeSpent();
+    public String getInput() {
+        return inputUrl;
+    }
+
+    public String getOutput() {
+        return outputUrl;
     }
 
 }
