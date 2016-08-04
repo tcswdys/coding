@@ -1,7 +1,7 @@
 /**
  *
  */
-package activity;
+package main.java;
 
 /**
  * @author ydu

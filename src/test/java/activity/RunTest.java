@@ -3,6 +3,8 @@ package activity;
 import org.junit.Assert;
 import org.junit.Test;
 
+import main.java.Run;
+
 public class RunTest {
 
     @Test
