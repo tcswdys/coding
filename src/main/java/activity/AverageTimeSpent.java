@@ -1,7 +1,7 @@
 /**
  *
  */
-package main.java;
+package activity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
