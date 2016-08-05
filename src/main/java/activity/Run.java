@@ -11,6 +11,7 @@ public class Run {
 
     private String inputUrl;
     private String outputUrl;
+    private String policy;
 
     Run() {
         //no-op
@@ -20,19 +21,17 @@ public class Run {
         parseInputArgs(args);
 
         AverageTimeSpent ats = new AverageTimeSpent(inputUrl, outputUrl);
-        ats.getAverageTimeSpent();
+        ats.getAverageTimeSpent(policy);
     }
 
     public void parseInputArgs(String[] args) throws Exception {
-        if (args.length == 2) {
+        if (args.length < 3) {
+            System.out.println("input argument invalid. please use run input_file output_file policy");
+            throw new Exception();
+        } else {
             inputUrl = args[0];
             outputUrl = args[1];
-        } else if (args.length == 1) {
-            inputUrl = args[0];
-            outputUrl = "./output.txt";
-        } else {
-            System.out.println("input argument invalid. please use run (input file) [output file]");
-            throw new Exception();
+            policy = args[2];
         }
     }
 
@@ -50,6 +49,10 @@ public class Run {
 
     public String getOutput() {
         return outputUrl;
+    }
+
+    public String getPolicy() {
+        return policy;
     }
 
 }
