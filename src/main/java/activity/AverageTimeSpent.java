@@ -27,29 +27,31 @@ public class AverageTimeSpent {
         this.outputUrl = outputUrl;
     }
 
-    public void getAverageTimeSpent(String policy) throws IOException {
+	@SuppressWarnings("deprecation")
+	public void getAverageTimeSpent(String policy) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(inputUrl));
         String line = "";
         DB db = DBMaker.fileDB("file.db").make();
-        ConcurrentMap time = db.hashMap("map").make();
+        ConcurrentMap<?, ?> time = db.hashMap("map").make();
 
         DB db2 = DBMaker.fileDB("file2.db").make();
-        ConcurrentMap status = db2.hashMap("map").make();
+        ConcurrentMap<?, ?> status = db2.hashMap("map").make();
 
-        Average avg = new AverageFactory.createAverageWithPolicy(line.split(","), time, status, policy);
+        Average avg = new AverageFactory().createAverageWithPolicy(time, status, policy);
 
         while((line=br.readLine())!=null)
         {
-            avg.update(line, time, status);
+            avg.update(line);
         }
         br.close();
         db.close();
 
-        write(outputUrl, time);
+        write(outputUrl, avg.getTime());
     }
 
-    public void write(String output, ConcurrentMap time) {
-
+    @SuppressWarnings("rawtypes")
+	public void write(String output, ConcurrentMap time) {
+    	
     }
 
 

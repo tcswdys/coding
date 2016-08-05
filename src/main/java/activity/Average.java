@@ -13,9 +13,10 @@ public interface Average {
 
     /**
      * @param line
-     * @param time
-     * @param status
      */
-    void update(String line, ConcurrentMap time, ConcurrentMap status);
+    void update(String line);
+
+	@SuppressWarnings("rawtypes")
+	ConcurrentMap getTime();
 
 }

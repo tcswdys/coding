@@ -16,7 +16,7 @@ public class AverageFactory {
         // TODO Auto-generated constructor stub
     }
 
-    public static Average createAverageWithPolicy(String[] input, ConcurrentMap time, ConcurrentMap status, String policy) {
+	public Average createAverageWithPolicy(ConcurrentMap<?, ?> time, ConcurrentMap<?, ?> status, String policy) {
 
         switch (policy) {
         case "shortest":

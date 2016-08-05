@@ -11,21 +11,30 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ShortestAverage implements Average {
 
+	private ConcurrentMap<String, Long> time;
+	private ConcurrentMap<String, OPEN> status;
+	
+	private static final String OPEN = "open";
     /**
      * @param time
      * @param status
      */
-    public ShortestAverage(ConcurrentMap time, ConcurrentMap status) {
-        // TODO Auto-generated constructor stub
+	public ShortestAverage(ConcurrentMap<String, Long> time, ConcurrentMap<String, OPEN> status) {
+        this.time = time;
+        this.status = status;
     }
 
-    /* (non-Javadoc)
-     * @see activity.Average#update(java.lang.String, java.util.concurrent.ConcurrentMap, java.util.concurrent.ConcurrentMap)
-     */
-    @Override
-    public void update(String line, ConcurrentMap time, ConcurrentMap status) {
-        // TODO Auto-generated method stub
-
+	@Override
+    public void update(String line) {
+    	String[] input = line.split(",");
+    	if (input[2].equals(OPEN)) {
+    		time.put(input[0], Long.valueOf(input[1]));
+    	}
     }
+
+	@Override
+	public ConcurrentMap<String, Long> getTime() {
+		return time;
+	}
 
 }
