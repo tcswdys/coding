@@ -18,7 +18,7 @@ public class FILOAverage implements Average {
 	private DBManeger activityDB;
 	private DBManeger countDB;
 	private DBManeger timeDB;
-	private Stack<Long> s;
+//	private Stack<Long> s;
 
 	private static final String OPEN = "open";
 	private static final String ACTIVITYDB = "activity.db";
@@ -47,13 +47,12 @@ public class FILOAverage implements Average {
 	@Override
     public void update(String line) {
     	String[] input = line.split(",");
-    	s = activity.get(input[0]) == null ? new Stack<>() : activity.get(input[0]);
+    	Stack<Long> s = activity.get(input[0]) == null ? new Stack<>() : activity.get(input[0]);
     	if (input[2].equals(OPEN)) {
-//    	    s = activity.get(input[0]) == null ? new Stack<>() : activity.get(input[0]);
     	    s.push(Long.valueOf(input[1]));
-//    	    System.out.println(s.peek());
     	    activity.put(input[0], s);
-    	} else if (s != null && s.isEmpty()) {
+    	} else if (s != null && !s.isEmpty()) {
+    		
     	    Long duration = Long.valueOf(input[1]) - s.pop();
     	    activity.put(input[0], s);
     	    int c = (count.get(input[0]) == null ? 0 : count.get(input[0])) + 1;
@@ -61,8 +60,6 @@ public class FILOAverage implements Average {
     	    count.put(input[0], c);
     	    Long d = time.get(input[0]) == null ? 0L : time.get(input[0]);
 
-    	    System.out.println(input[0]);
-    	    System.out.println(d);
     	    time.put(input[0], (duration + d) / c);
     	}
     }

@@ -32,7 +32,6 @@ public class AverageTimeSpent {
         String line = "";
         while((line=br.readLine())!=null)
         {
-            System.out.println(line);
             avg.update(line);
         }
         br.close();
