@@ -18,7 +18,6 @@ public class FILOAverage implements Average {
 	private DBManeger activityDB;
 	private DBManeger countDB;
 	private DBManeger timeDB;
-//	private Stack<Long> s;
 
 	private static final String OPEN = "open";
 	private static final String ACTIVITYDB = "activity.db";

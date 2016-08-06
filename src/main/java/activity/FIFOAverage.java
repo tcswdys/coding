@@ -3,8 +3,9 @@
  */
 package activity;
 
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Stack;
+import java.util.Queue;
 
 /**
  * @author ydu
@@ -12,26 +13,65 @@ import java.util.Stack;
  */
 public class FIFOAverage implements Average {
 
-    private Map<String, Stack<Long>> activity;
+    private Map<String, Queue<Long>> activity;
     private Map<String, Integer> count;
     private Map<String, Long> time;
-
+	private DBManeger activityDB;
+	private DBManeger countDB;
+	private DBManeger timeDB;
+	
+	private static final String OPEN = "open";
+	private static final String ACTIVITYDB = "activity.db";
+	private static final String COUNTDB = "count.db";
+	private static final String TIMEDB = "time.db";
+	private static final String ACTIVITYMAP = "avtMap";
+	private static final String COUNTMAP = "cntMap";
+	private static final String TIMEMAP = "timeMap";
+	private static final String STRING = "string";
+	private static final String LONG = "long";
+	private static final String INTEGER = "integer";
+	private static final String QUEUE = "queue";
+	
+    @SuppressWarnings("unchecked")
+	public FIFOAverage() {
+	    activityDB = new DBManeger();
+        this.activity = activityDB.getMap(ACTIVITYDB, ACTIVITYMAP, STRING, QUEUE);
+        countDB = new DBManeger();
+        this.count = countDB.getMap(COUNTDB, COUNTMAP, STRING, INTEGER);
+        timeDB = new DBManeger();
+        this.time = timeDB.getMap(TIMEDB, TIMEMAP, STRING, LONG);
+    }
+    
     @Override
     public void update(String line) {
-        // TODO Auto-generated method stub
+    	String[] input = line.split(",");
+    	Queue<Long> s = activity.get(input[0]) == null ? new LinkedList<>() : activity.get(input[0]);
+    	if (input[2].equals(OPEN)) {
+    	    s.add(Long.valueOf(input[1]));
+    	    activity.put(input[0], s);
+    	} else if (s != null && !s.isEmpty()) {
+    		
+    	    Long duration = Long.valueOf(input[1]) - s.remove();
+    	    activity.put(input[0], s);
+    	    int c = (count.get(input[0]) == null ? 0 : count.get(input[0])) + 1;
 
+    	    count.put(input[0], c);
+    	    Long d = time.get(input[0]) == null ? 0L : time.get(input[0]);
+
+    	    time.put(input[0], (duration + d) / c);
+    	}
     }
 
     @Override
     public Map<String, Long> getTime() {
-        // TODO Auto-generated method stub
-        return null;
+    	return time;
     }
 
     @Override
     public void cleanUp() {
-        // TODO Auto-generated method stub
-
+    	activityDB.cleanUp();
+        countDB.cleanUp();
+        timeDB.cleanUp();
     }
 
 }
