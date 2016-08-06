@@ -3,7 +3,7 @@
  */
 package activity;
 
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 /**
  * @author ydu
@@ -16,7 +16,11 @@ public interface Average {
      */
     void update(String line);
 
-	@SuppressWarnings("rawtypes")
-	ConcurrentMap getTime();
+	Map<String, Long> getTime();
+
+    /**
+     *
+     */
+    void cleanUp();
 
 }

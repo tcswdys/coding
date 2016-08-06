@@ -21,7 +21,7 @@ public class Run {
         parseInputArgs(args);
 
         AverageTimeSpent ats = new AverageTimeSpent(inputUrl, outputUrl);
-        ats.getAverageTimeSpent(policy);
+        ats.getAverageTimeSpent(detectPolicy(policy));
     }
 
     public void parseInputArgs(String[] args) throws Exception {
@@ -53,6 +53,15 @@ public class Run {
 
     public String getPolicy() {
         return policy;
+    }
+
+    private Policy detectPolicy(String policy) {
+        if (policy.equalsIgnoreCase("fifo")) {
+            return Policy.FIFO;
+        } else if (policy.equalsIgnoreCase("filo")) {
+            return Policy.FILO;
+        }
+        return Policy.UNKNOWN;
     }
 
 }

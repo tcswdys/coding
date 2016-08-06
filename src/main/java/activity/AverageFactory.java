@@ -3,9 +3,6 @@
  */
 package activity;
 
-import java.util.concurrent.ConcurrentMap;
-
-
 /**
  * @author ydu
  *
@@ -13,14 +10,16 @@ import java.util.concurrent.ConcurrentMap;
 public class AverageFactory {
 
     public AverageFactory() {
-        // TODO Auto-generated constructor stub
+        // no-op
     }
 
-	public Average createAverageWithPolicy(ConcurrentMap<?, ?> time, ConcurrentMap<?, ?> status, String policy) {
+	public Average createAverageWithPolicy(Policy policy) {
 
         switch (policy) {
-        case "shortest":
-            return new ShortestAverage(time, status);
+        case FILO:
+            return new FILOAverage();
+        case FIFO:
+            return new FIFOAverage();
         default:
             throw new IllegalArgumentException("Unsupported policy: " + policy);
         }

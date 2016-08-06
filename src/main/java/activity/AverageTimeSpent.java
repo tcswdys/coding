@@ -6,12 +6,7 @@ package activity;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentMap;
-
-import org.mapdb.DB;
-import org.mapdb.DBMaker;
-
-import activity.AverageFactory;
+import java.util.Map;
 
 /**
  * @author ydu
@@ -27,31 +22,24 @@ public class AverageTimeSpent {
         this.outputUrl = outputUrl;
     }
 
-	@SuppressWarnings("deprecation")
-	public void getAverageTimeSpent(String policy) throws IOException {
+	public void getAverageTimeSpent(Policy policy) throws IOException {
+
+        Average avg = new AverageFactory().createAverageWithPolicy(policy);
+
         BufferedReader br = new BufferedReader(new FileReader(inputUrl));
         String line = "";
-        DB db = DBMaker.fileDB("file.db").make();
-        ConcurrentMap<?, ?> time = db.hashMap("map").make();
-
-        DB db2 = DBMaker.fileDB("file2.db").make();
-        ConcurrentMap<?, ?> status = db2.hashMap("map").make();
-
-        Average avg = new AverageFactory().createAverageWithPolicy(time, status, policy);
-
         while((line=br.readLine())!=null)
         {
             avg.update(line);
         }
         br.close();
-        db.close();
 
         write(outputUrl, avg.getTime());
+        avg.cleanUp();
     }
 
-    @SuppressWarnings("rawtypes")
-	public void write(String output, ConcurrentMap time) {
-    	
+	public void write(String output, Map<String, Long> time) {
+
     }
 
 
