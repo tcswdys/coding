@@ -54,15 +54,14 @@ public class FILOAverage implements Average {
 //    	    System.out.println(s.peek());
     	    activity.put(input[0], s);
     	} else if (s != null && s.isEmpty()) {
-    	    System.out.println(s.peek());
     	    Long duration = Long.valueOf(input[1]) - s.pop();
     	    activity.put(input[0], s);
     	    int c = (count.get(input[0]) == null ? 0 : count.get(input[0])) + 1;
 
-    	    System.out.println(c);
     	    count.put(input[0], c);
-    	    Long d = time.get(input[0]) == null ? 0 : time.get(input[0]);
+    	    Long d = time.get(input[0]) == null ? 0L : time.get(input[0]);
 
+    	    System.out.println(input[0]);
     	    System.out.println(d);
     	    time.put(input[0], (duration + d) / c);
     	}

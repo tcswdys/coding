@@ -4,7 +4,9 @@
 package activity;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ public class AverageTimeSpent {
         String line = "";
         while((line=br.readLine())!=null)
         {
+            System.out.println(line);
             avg.update(line);
         }
         br.close();
@@ -38,8 +41,16 @@ public class AverageTimeSpent {
         avg.cleanUp();
     }
 
-	public void write(String output, Map<String, Long> time) {
-
+	public void write(String output, Map<String, Long> time) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(output));
+        for (String s : time.keySet()) {
+            bw.write(s);
+            bw.write(",");
+            bw.write(String.valueOf(time.get(s)));
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
     }
 
 
